@@ -6,18 +6,11 @@
 # dependencies
 node_modules/
 ios/
-android/
-
-!ios/bestplaces/AppDelegate.h
-!ios/bestplaces/AppDelegate.m
-!ios/Podfile
-
-!android/build.gradle
-!android/settings.gradle
-!android/app/build.gradle
-!android/app/src/main/AndroidManifest.xml
-!android/app/src/main/java/com/bestplaces/MainActivity.java
-!android/app/src/main/java/com/bestplaces/MainApplication.java
+android/.gradle
+android/.idea
+android/app/build
+ios/build
+ios/Pods
 
 
 # misc

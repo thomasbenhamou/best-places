@@ -1,37 +1,40 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import { Navigation } from 'react-native-navigation';
-import HomeScreen from './src/screens/homeScreen';
+import AuthScreen from './src/screens/Auth/Auth';
+import SharePlaceScreen from './src/screens/SharePlace/SharePlace';
+import FindPlaceScreen from './src/screens/FindPlace/FindPlace';
+import { Provider } from 'react-redux';
+import configureStore from './src/store/configureStore';
+import PlaceDetailScreen from './src/screens/PlaceDetail/PlaceDetail';
+import SideDrawer from './src/screens/SideDrawer/SideDrawer';
 
-Navigation.registerComponent('homeScreen', () => HomeScreen);
+const store = configureStore();
 
+// Registering screens
+Navigation.registerComponent('awesome-places.AuthScreen', () => AuthScreen, store, Provider);
+Navigation.registerComponent(
+  'awesome-places.SharePlaceScreen',
+  () => SharePlaceScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  'awesome-places.FindPlaceScreen',
+  () => FindPlaceScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent(
+  'awesome-places.PlaceDetailScreen',
+  () => PlaceDetailScreen,
+  store,
+  Provider
+);
+Navigation.registerComponent('awesome-places.SideDrawer', () => SideDrawer);
+
+// Start the app
 Navigation.startSingleScreenApp({
   screen: {
-    screen: 'homeScreen',
-    title: 'home'
+    screen: 'awesome-places.AuthScreen',
+    title: 'Login'
   }
 });
-
-// export default class App extends React.Component {
-//   render() {
-//     return (
-//       <View style={styles.container}>
-//         <MapView provider={PROVIDER_GOOGLE} style={styles.map} />
-//       </View>
-//     );
-//   }
-// }
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: '#fff',
-//     alignItems: 'center',
-//     justifyContent: 'center'
-//   },
-//   map: {
-//     height: 300,
-//     width: 300
-//   }
-// });
