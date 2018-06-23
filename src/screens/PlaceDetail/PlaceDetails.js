@@ -9,6 +9,7 @@ import {
   Platform,
   Dimensions
 } from 'react-native';
+import MapView from 'react-native-maps';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { connect } from 'react-redux';
 import { deletePlace } from '../../store/actions/index';
@@ -40,6 +41,12 @@ class PlaceDetail extends Component {
 
   render() {
     const { selectedPlace } = this.props;
+    const placeLocation = {
+      latitude: selectedPlace.location.latitude,
+      longitude: selectedPlace.location.longitude,
+      latitudeDelta: 0.0122,
+      longitudeDelta: (Dimensions.get('window').width / Dimensions.get('window').height) * 0.0122
+    };
     return (
       <View
         style={[
@@ -50,10 +57,18 @@ class PlaceDetail extends Component {
         <View style={styles.subContainer}>
           <Image source={selectedPlace.image} style={styles.image} />
         </View>
+
+        <View style={styles.subContainer}>
+          <MapView style={styles.map} initialRegion={placeLocation}>
+            <MapView.Marker coordinate={placeLocation} />
+          </MapView>
+        </View>
+
         <View style={styles.subContainer}>
           <View>
             <Text style={styles.placeName}>{selectedPlace.name}</Text>
           </View>
+
           <View>
             <TouchableOpacity onPress={this.onDeletePlaceHandler}>
               <View style={styles.deleteButton}>
@@ -87,7 +102,7 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: 200
+    height: '100%'
   },
   placeName: {
     fontWeight: 'bold',
@@ -96,6 +111,10 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     alignItems: 'center'
+  },
+  map: {
+    width: '100%',
+    height: '100%'
   }
 });
 
@@ -104,6 +123,7 @@ const mapDispatchToProps = dispatch => {
     onDeletePlace: key => dispatch(deletePlace(key))
   };
 };
+
 export default connect(
   null,
   mapDispatchToProps

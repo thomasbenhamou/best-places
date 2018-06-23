@@ -4,7 +4,7 @@ import SharePlaceScreen from './src/screens/SharePlace/SharePlace';
 import FindPlaceScreen from './src/screens/FindPlace/FindPlace';
 import { Provider } from 'react-redux';
 import configureStore from './src/store/configureStore';
-import PlaceDetailScreen from './src/screens/PlaceDetail/PlaceDetail';
+import PlaceDetailScreen from './src/screens/PlaceDetail/PlaceDetails';
 import SideDrawer from './src/screens/SideDrawer/SideDrawer';
 
 const store = configureStore();

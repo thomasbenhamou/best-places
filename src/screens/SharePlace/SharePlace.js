@@ -17,7 +17,11 @@ class SharePlaceScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      placeName: ''
+      placeName: '',
+      location: {
+        value: null,
+        valid: false
+      }
     };
     this.props.navigator.setOnNavigatorEvent(this.onNavigatorEvent);
   }
@@ -39,9 +43,21 @@ class SharePlaceScreen extends Component {
   };
 
   onPlaceAddedHandler = () => {
-    if (this.state.placeName.trim() !== '') {
-      this.props.onAddPlace(this.state.placeName);
-    }
+    this.props.onAddPlace(this.state.placeName, this.state.controls.location.value);
+  };
+
+  locationPickedHandler = location => {
+    this.setState(prevState => {
+      return {
+        controls: {
+          ...prevState.controls,
+          location: {
+            value: location,
+            valid: true
+          }
+        }
+      };
+    });
   };
 
   render() {
@@ -52,7 +68,7 @@ class SharePlaceScreen extends Component {
             <HeadingText>Share a place with us</HeadingText>
           </MainText>
           <PickImage />
-          <PickLocation />
+          <PickLocation onLocationPick={this.locationPickedHandler} />
           <PlaceInput
             placeName={this.state.placeName}
             onChangeText={this.placeNameChangedHandler}
@@ -60,7 +76,7 @@ class SharePlaceScreen extends Component {
           <Button
             title="Share the place"
             onPress={this.onPlaceAddedHandler}
-            disabled={this.state.placeName === ''}
+            disabled={this.state.placeName === '' || !this.state.controls.location.valid}
           />
         </View>
       </KeyboardAwareScrollView>
@@ -80,7 +96,7 @@ const styles = StyleSheet.create({
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAddPlace: placeName => dispatch(addPlace(placeName))
+    onAddPlace: (placeName, location) => dispatch(addPlace(placeName, location))
   };
 };
 export default connect(
